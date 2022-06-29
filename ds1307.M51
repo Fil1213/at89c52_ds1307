@@ -1,0 +1,378 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        06/29/2022  11:54:34  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE ds1307.obj TO ds1307 RAMSIZE (256) CODE (0X0000-0X1FFF)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  ds1307.obj (DS1307)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?COPY)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (PRINTF)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?CLDPTR)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?CLDOPTR)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?CSTPTR)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?PLDIIDATA)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?CCASE)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (PUTCHAR)
+
+
+LINK MAP OF MODULE:  ds1307 (DS1307)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+                    0008H     0018H                  *** GAP ***
+            BIT     0020H.0   0001H.1   UNIT         _BIT_GROUP_
+                    0021H.1   0000H.7                *** GAP ***
+            DATA    0022H     001CH     UNIT         _DATA_GROUP_
+            IDATA   003EH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     035CH     UNIT         ?PR?PRINTF?PRINTF
+            CODE    035FH     0184H     UNIT         ?C?LIB_CODE
+            CODE    04E3H     00CDH     UNIT         ?PR?MAIN?DS1307
+            CODE    05B0H     0052H     UNIT         ?CO?DS1307
+            CODE    0602H     0049H     UNIT         ?PR?I2C_READ_BYTE?DS1307
+            CODE    064BH     002FH     UNIT         ?PR?_I2C_WRITE_BYTE?DS1307
+            CODE    067AH     0027H     UNIT         ?PR?PUTCHAR?PUTCHAR
+            CODE    06A1H     0015H     UNIT         ?PR?_DEC_TO_BCD?DS1307
+            CODE    06B6H     0014H     UNIT         ?PR?I2C_START?DS1307
+            CODE    06CAH     0014H     UNIT         ?PR?_BCD_TO_DEC?DS1307
+            CODE    06DEH     0013H     UNIT         ?PR?_FROMDECIMALTOBCD?DS1307
+            CODE    06F1H     0012H     UNIT         ?PR?I2C_STOP?DS1307
+            CODE    0703H     0010H     UNIT         ?PR?_DELAY_US?DS1307
+            CODE    0713H     0010H     UNIT         ?PR?PRESET_UART?DS1307
+            CODE    0723H     000FH     UNIT         ?PR?_FROMBCDTODECIMAL?DS1307
+            CODE    0732H     000CH     UNIT         ?PR?_DELAY_MC?DS1307
+            CODE    073EH     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   ds1307 (DS1307)
+
+BL51 BANKED LINKER/LOCATER V6.22                                                      06/29/2022  11:54:34  PAGE 2
+
+
+
+SEGMENT                                 BIT_GROUP          DATA_GROUP 
+  +--> CALLED SEGMENT                START    LENGTH     START    LENGTH
+------------------------------------------------------------------------
+?C_C51STARTUP                        -----    -----      -----    -----
+  +--> ?PR?MAIN?DS1307
+
+?PR?MAIN?DS1307                      -----    -----      0022H    0008H
+  +--> ?CO?DS1307
+  +--> ?PR?PRESET_UART?DS1307
+  +--> ?PR?I2C_START?DS1307
+  +--> ?PR?_I2C_WRITE_BYTE?DS1307
+  +--> ?PR?I2C_STOP?DS1307
+  +--> ?PR?I2C_READ_BYTE?DS1307
+  +--> ?PR?_BCD_TO_DEC?DS1307
+  +--> ?PR?PRINTF?PRINTF
+  +--> ?PR?_DELAY_MC?DS1307
+
+?PR?I2C_START?DS1307                 -----    -----      -----    -----
+  +--> ?PR?_DELAY_US?DS1307
+
+?PR?_I2C_WRITE_BYTE?DS1307           0020H.0  0000H.1    -----    -----
+  +--> ?PR?_DELAY_US?DS1307
+
+?PR?I2C_STOP?DS1307                  -----    -----      -----    -----
+  +--> ?PR?_DELAY_US?DS1307
+
+?PR?I2C_READ_BYTE?DS1307             0020H.0  0000H.2    -----    -----
+  +--> ?PR?_DELAY_US?DS1307
+
+?PR?PRINTF?PRINTF                    0020H.0  0001H.1    002AH    0014H
+  +--> ?PR?PUTCHAR?PUTCHAR
+
+
+
+SYMBOL TABLE OF MODULE:  ds1307 (DS1307)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        DS1307
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  B:00A8H.7       PUBLIC        EA
+  C:06B6H         PUBLIC        i2c_start
+  C:0606H         PUBLIC        i2c_read_byte
+  C:06CAH         PUBLIC        _Bcd_To_Dec
+  C:06A1H         PUBLIC        _Dec_To_Bcd
+  B:0098H.1       PUBLIC        TI
+  C:064BH         PUBLIC        _i2c_write_byte
+  C:04E3H         PUBLIC        main
+  C:06F1H         PUBLIC        i2c_stop
+  D:0098H         PUBLIC        SCON
+  C:0713H         PUBLIC        preset_UART
+  D:0089H         PUBLIC        TMOD
+  C:05FBH         SYMBOL        _?ix1000
+  C:0732H         PUBLIC        _delay_mc
+BL51 BANKED LINKER/LOCATER V6.22                                                      06/29/2022  11:54:34  PAGE 3
+
+
+  D:008DH         PUBLIC        TH1
+  B:0088H.6       PUBLIC        TR1
+  B:0080H.1       PUBLIC        SDA
+  C:070CH         PUBLIC        _delay_us
+  B:0080H.0       PUBLIC        SCL
+  C:0723H         PUBLIC        _fromBCDToDecimal
+  C:06DEH         PUBLIC        _fromDecimalToBCD
+  C:0708H         SYMBOL        L?0045
+  -------         PROC          L?0044
+  -------         ENDPROC       L?0044
+  C:0708H         SYMBOL        L?0045
+  -------         PROC          _DELAY_US
+  D:0007H         SYMBOL        i
+  C:070CH         LINE#         18
+  C:070CH         LINE#         19
+  C:070CH         LINE#         20
+  C:0712H         LINE#         21
+  -------         ENDPROC       _DELAY_US
+  -------         PROC          _DELAY_MC
+  D:0006H         SYMBOL        i
+  C:0732H         LINE#         23
+  C:0732H         LINE#         24
+  C:0732H         LINE#         25
+  C:073DH         LINE#         26
+  -------         ENDPROC       _DELAY_MC
+  -------         PROC          I2C_START
+  C:06B6H         LINE#         28
+  C:06B6H         LINE#         29
+  C:06B6H         LINE#         30
+  C:06B8H         LINE#         31
+  C:06BDH         LINE#         32
+  C:06BFH         LINE#         33
+  C:06C7H         LINE#         34
+  C:06C8H         LINE#         36
+  C:06C9H         LINE#         37
+  -------         ENDPROC       I2C_START
+  -------         PROC          I2C_STOP
+  C:06F1H         LINE#         39
+  C:06F1H         LINE#         40
+  C:06F1H         LINE#         41
+  C:06F3H         LINE#         42
+  C:06F3H         LINE#         43
+  C:06F3H         LINE#         44
+  C:06F6H         LINE#         45
+  C:06F8H         LINE#         46
+  C:0700H         LINE#         47
+  C:0701H         LINE#         49
+  C:0702H         LINE#         50
+  -------         ENDPROC       I2C_STOP
+  -------         PROC          _I2C_WRITE_BYTE
+  D:0006H         SYMBOL        Byte
+  -------         DO            
+  B:0020H.0       SYMBOL        status
+  D:0005H         SYMBOL        i
+  -------         ENDDO         
+  C:064BH         LINE#         52
+  C:064DH         LINE#         53
+BL51 BANKED LINKER/LOCATER V6.22                                                      06/29/2022  11:54:34  PAGE 4
+
+
+  C:064DH         LINE#         56
+  C:064FH         LINE#         57
+  C:064FH         LINE#         58
+  C:0653H         LINE#         59
+  C:0657H         LINE#         61
+  C:0659H         LINE#         62
+  C:065DH         LINE#         63
+  C:065DH         LINE#         64
+  C:065DH         LINE#         65
+  C:0660H         LINE#         66
+  C:0662H         LINE#         67
+  C:0666H         LINE#         68
+  C:066BH         LINE#         69
+  C:066EH         LINE#         70
+  C:0672H         LINE#         71
+  C:0672H         LINE#         72
+  C:0675H         LINE#         73
+  C:0677H         LINE#         74
+  C:0679H         LINE#         75
+  -------         ENDPROC       _I2C_WRITE_BYTE
+  C:0602H         SYMBOL        L?0047
+  -------         PROC          L?0046
+  -------         ENDPROC       L?0046
+  C:0602H         SYMBOL        L?0047
+  -------         PROC          I2C_READ_BYTE
+  B:0020H.0       SYMBOL        nack_ack
+  B:0020H.1       SYMBOL        msb_lsb
+  -------         DO            
+  D:0005H         SYMBOL        i
+  D:0006H         SYMBOL        temp
+  -------         ENDDO         
+  C:0606H         LINE#         77
+  C:0606H         LINE#         78
+  C:0606H         LINE#         80
+  C:0608H         LINE#         81
+  C:0608H         LINE#         82
+  C:0608H         LINE#         83
+  C:060BH         LINE#         85
+  C:060EH         LINE#         86
+  C:060EH         LINE#         87
+  C:0611H         LINE#         88
+  C:0616H         LINE#         90
+  C:0616H         LINE#         91
+  C:061AH         LINE#         92
+  C:061CH         LINE#         94
+  C:061CH         LINE#         95
+  C:061FH         LINE#         96
+  C:0624H         LINE#         98
+  C:0624H         LINE#         99
+  C:0628H         LINE#         100
+  C:0628H         LINE#         101
+  C:062AH         LINE#         102
+  C:062FH         LINE#         103
+  C:0633H         LINE#         104
+  C:0636H         LINE#         105
+  C:063AH         LINE#         107
+  C:063CH         LINE#         108
+BL51 BANKED LINKER/LOCATER V6.22                                                      06/29/2022  11:54:34  PAGE 5
+
+
+  C:063CH         LINE#         109
+  C:063FH         LINE#         110
+  C:0641H         LINE#         111
+  C:0646H         LINE#         112
+  C:0648H         LINE#         113
+  C:064AH         LINE#         114
+  -------         ENDPROC       I2C_READ_BYTE
+  -------         PROC          PRESET_UART
+  C:0713H         LINE#         116
+  C:0713H         LINE#         119
+  C:0716H         LINE#         120
+  C:0719H         LINE#         121
+  C:071CH         LINE#         122
+  C:071EH         LINE#         123
+  C:0720H         LINE#         124
+  C:0722H         LINE#         125
+  -------         ENDPROC       PRESET_UART
+  -------         PROC          _DEC_TO_BCD
+  D:0007H         SYMBOL        dec
+  C:06A1H         LINE#         129
+  C:06A1H         LINE#         130
+  C:06A1H         LINE#         131
+  C:06B5H         LINE#         132
+  -------         ENDPROC       _DEC_TO_BCD
+  -------         PROC          _BCD_TO_DEC
+  D:0007H         SYMBOL        bcd
+  C:06CAH         LINE#         137
+  C:06CAH         LINE#         138
+  C:06DDH         LINE#         139
+  -------         ENDPROC       _BCD_TO_DEC
+  -------         PROC          _FROMDECIMALTOBCD
+  D:0007H         SYMBOL        decimalValue
+  C:06DEH         LINE#         141
+  C:06DEH         LINE#         142
+  C:06F0H         LINE#         144
+  -------         ENDPROC       _FROMDECIMALTOBCD
+  -------         PROC          _FROMBCDTODECIMAL
+  D:0007H         SYMBOL        BCDValue
+  C:0723H         LINE#         146
+  C:0723H         LINE#         147
+  C:0731H         LINE#         148
+  -------         ENDPROC       _FROMBCDTODECIMAL
+  -------         PROC          MAIN
+  -------         DO            
+  D:0022H         SYMBOL        temp
+  D:0029H         SYMBOL        i
+  -------         ENDDO         
+  C:04E3H         LINE#         151
+  C:04E3H         LINE#         152
+  C:04F6H         LINE#         154
+  C:04F9H         LINE#         156
+  C:04FCH         LINE#         157
+  C:0501H         LINE#         158
+  C:0506H         LINE#         159
+  C:0509H         LINE#         161
+  C:0509H         LINE#         163
+  C:050CH         LINE#         164
+BL51 BANKED LINKER/LOCATER V6.22                                                      06/29/2022  11:54:34  PAGE 6
+
+
+  C:0511H         LINE#         165
+  C:0516H         LINE#         166
+  C:0519H         LINE#         168
+  C:051CH         LINE#         169
+  C:0521H         LINE#         171
+  C:0529H         LINE#         172
+  C:0531H         LINE#         173
+  C:0539H         LINE#         174
+  C:0541H         LINE#         175
+  C:0549H         LINE#         176
+  C:0551H         LINE#         177
+  C:055DH         LINE#         178
+  C:0560H         LINE#         180
+  C:0569H         LINE#         181
+  C:0584H         LINE#         182
+  C:059FH         LINE#         183
+  C:05A6H         LINE#         184
+  C:05ADH         LINE#         186
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        DS1307
+
+  -------         MODULE        ?C?COPY
+  C:042FH         PUBLIC        ?C?COPY
+  -------         ENDMOD        ?C?COPY
+
+  -------         MODULE        PRINTF
+  D:002AH         PUBLIC        ?_PRINTF517?BYTE
+  D:002AH         PUBLIC        ?_PRINTF?BYTE
+  D:002AH         PUBLIC        ?_SPRINTF517?BYTE
+  D:002AH         PUBLIC        ?_SPRINTF?BYTE
+  C:0065H         PUBLIC        _PRINTF
+  C:0065H         PUBLIC        _PRINTF517
+  C:005FH         PUBLIC        _SPRINTF
+  C:005FH         PUBLIC        _SPRINTF517
+  -------         ENDMOD        PRINTF
+
+  -------         MODULE        ?C?CLDPTR
+  C:0455H         PUBLIC        ?C?CLDPTR
+  -------         ENDMOD        ?C?CLDPTR
+
+  -------         MODULE        ?C?CLDOPTR
+  C:046EH         PUBLIC        ?C?CLDOPTR
+  -------         ENDMOD        ?C?CLDOPTR
+
+  -------         MODULE        ?C?CSTPTR
+  C:049BH         PUBLIC        ?C?CSTPTR
+  -------         ENDMOD        ?C?CSTPTR
+
+  -------         MODULE        ?C?PLDIIDATA
+  C:04ADH         PUBLIC        ?C?PLDIIDATA
+  -------         ENDMOD        ?C?PLDIIDATA
+
+  -------         MODULE        ?C?CCASE
+  C:04BDH         PUBLIC        ?C?CCASE
+  -------         ENDMOD        ?C?CCASE
+
+  -------         MODULE        PUTCHAR
+BL51 BANKED LINKER/LOCATER V6.22                                                      06/29/2022  11:54:34  PAGE 7
+
+
+  C:067AH         PUBLIC        _PUTCHAR
+  -------         ENDMOD        PUTCHAR
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DEC_TO_BCD?DS1307
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_FROMDECIMALTOBCD?DS1307
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_FROMBCDTODECIMAL?DS1307
+
+Program Size: data=38.1 xdata=0 code=1866
+LINK/LOCATE RUN COMPLETE.  3 WARNING(S),  0 ERROR(S)

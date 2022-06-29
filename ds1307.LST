@@ -1,0 +1,217 @@
+C51 COMPILER V9.53.0.0   DS1307                                                            06/29/2022 11:54:34 PAGE 1   
+
+
+C51 COMPILER V9.53.0.0, COMPILATION OF MODULE DS1307
+OBJECT MODULE PLACED IN ds1307.OBJ
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ds1307.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2            #include <stdio.H>
+   3            
+   4            #define MSB 1
+   5            #define LSB 0
+   6            #define NACK 1
+   7            #define ACK 0
+   8            #define I2C_DEL 5
+   9            #define I2C_OK 0
+  10            #define I2C_ERROR 1
+  11            
+  12            #define GetRHumidityCmd 0
+  13            #define GetTempCmd 1
+  14          
+  15           sbit SDA = P0 ^ 1;
+  16           sbit SCL = P0 ^ 0;
+  17            
+  18            void delay_us(unsigned char i)
+  19            {
+  20   1         while(i != 0)i--;
+  21   1        }
+  22          
+  23            void delay_mc(unsigned int i)
+  24            {
+  25   1        while(i != 0)i--;
+  26   1        }
+  27          
+  28            bit i2c_start(void)
+  29            {
+  30   1         SDA = 0;
+  31   1         delay_us(I2C_DEL);
+  32   1         SCL = 0;
+  33   1         if(SDA == SCL)
+  34   1          return I2C_OK;
+  35   1         else 
+  36   1          return I2C_ERROR;
+  37   1        }
+  38          
+  39             bit i2c_stop(void)
+  40             {
+  41   1          SDA = 0;
+  42   1          delay_us(I2C_DEL);
+  43   1          SCL = 1;
+  44   1          delay_us(I2C_DEL);
+  45   1          SDA = 1;
+  46   1          if(SDA == SCL)
+  47   1           return I2C_OK;
+  48   1          else 
+  49   1           return I2C_ERROR;
+  50   1         }
+  51          
+  52             bit i2c_write_byte(unsigned char Byte)
+  53             {
+  54   1          bit status;
+  55   1          unsigned char i;
+C51 COMPILER V9.53.0.0   DS1307                                                            06/29/2022 11:54:34 PAGE 2   
+
+  56   1           for (i = 0; i < 8; i++)
+  57   1           {
+  58   2             if(Byte & 0x80)
+  59   2              SDA = 1;
+  60   2             else 
+  61   2              SDA = 0; 
+  62   2             Byte <<= 1;
+  63   2             delay_us(I2C_DEL);
+  64   2             SCL = 1;
+  65   2             delay_us(I2C_DEL);
+  66   2             SCL = 0;
+  67   2            }
+  68   1          delay_us(I2C_DEL);
+  69   1          while(SDA);
+  70   1          status = SDA;
+  71   1          SCL = 1;
+  72   1          delay_us(I2C_DEL);
+  73   1          SCL = 0;
+  74   1          return status;
+  75   1         } 
+  76          
+  77            unsigned char i2c_read_byte(bit nack_ack,bit msb_lsb)
+  78            {
+  79   1         unsigned char i,temp;  
+  80   1         for (i = 0; i < 8; i++) 
+  81   1         { 
+  82   2          SCL = 1;
+  83   2          delay_us(I2C_DEL);
+  84   2          
+  85   2          if(msb_lsb)
+  86   2          {
+  87   3           if(SDA)
+  88   3            temp |= 0x01;
+  89   3           else 
+  90   3            temp |= 0x00;
+  91   3           temp <<= 1;
+  92   3          }
+  93   2          else 
+  94   2          {
+  95   3           if(SDA)
+  96   3            temp |= 0x80;
+  97   3           else
+  98   3            temp |= 0x00;
+  99   3           temp >>= 1;
+ 100   3          }
+ 101   2          SCL = 0;
+ 102   2          delay_us(I2C_DEL);
+ 103   2         }
+ 104   1         if(nack_ack)
+ 105   1          SDA = 1;
+ 106   1         else
+ 107   1          SDA = 0;
+ 108   1         SCL = 1;
+ 109   1         delay_us(I2C_DEL);
+ 110   1         SCL = 0;
+ 111   1         delay_us(I2C_DEL);
+ 112   1         SDA = 1;
+ 113   1         return temp;
+ 114   1        }
+ 115          
+ 116          void preset_UART(void){
+ 117   1        
+C51 COMPILER V9.53.0.0   DS1307                                                            06/29/2022 11:54:34 PAGE 3   
+
+ 118   1        //i8051 11.0592 9600
+ 119   1        SCON = 0x50;
+ 120   1        TH1 = 0xFD;
+ 121   1        TMOD |= 0x20;
+ 122   1        TR1 = 1;
+ 123   1        TI = 1;
+ 124   1        EA = 1;
+ 125   1      }
+ 126            
+ 127          //---------------------- Binary to bcd -------------------///
+ 128            
+ 129            unsigned char Dec_To_Bcd(unsigned char dec)
+ 130            {
+ 131   1        return ((((dec / 10) << 4) | (dec % 10)) << 1);
+ 132   1        }
+ 133           
+ 134          
+ 135          //---------------------- Bcd to binary -------------------///
+ 136          
+ 137             unsigned char Bcd_To_Dec(unsigned char bcd){
+ 138   1        return (10 * (((bcd >>1) & 0xF0) >> 4) + ((bcd >> 1) & 0x0F));
+ 139   1      }
+ 140          
+ 141             unsigned char fromDecimalToBCD(unsigned char decimalValue) {
+ 142   1         return ((decimalValue / 10) * 16) + (decimalValue % 10);
+ 143   1           
+ 144   1        }
+ 145          
+ 146            unsigned char fromBCDToDecimal(unsigned char BCDValue) {
+ 147   1        return ((BCDValue / 16) * 10) + (BCDValue % 16);
+ 148   1         }
+ 149          
+ 150          
+ 151            void main(void){
+ 152   1          unsigned char temp[7] = {0};
+ 153   1          unsigned char i;  
+ 154   1          preset_UART();
+ 155   1          
+ 156   1          i2c_start();
+ 157   1          i2c_write_byte(0xD0);
+ 158   1          i2c_write_byte(0x00);
+ 159   1          i2c_stop();
+ 160   1          
+ 161   1          while(1){
+ 162   2            
+ 163   2          i2c_start();
+ 164   2          i2c_write_byte(0xD0);
+ 165   2          i2c_write_byte(0x00);
+ 166   2          i2c_stop();
+ 167   2            
+ 168   2          i2c_start();
+ 169   2          i2c_write_byte(0xD1);
+ 170   2            
+ 171   2          temp[0] = Bcd_To_Dec(i2c_read_byte(0,1));
+ 172   2          temp[1] = Bcd_To_Dec(i2c_read_byte(0,1)); 
+ 173   2          temp[2] = Bcd_To_Dec(i2c_read_byte(0,1));
+ 174   2          temp[3] = Bcd_To_Dec(i2c_read_byte(0,1)); 
+ 175   2          temp[4] = Bcd_To_Dec(i2c_read_byte(0,1)); 
+ 176   2          temp[5] = Bcd_To_Dec(i2c_read_byte(0,1));
+ 177   2          temp[6] = Bcd_To_Dec(i2c_read_byte(1,1));     
+ 178   2          i2c_stop();
+ 179   2        
+C51 COMPILER V9.53.0.0   DS1307                                                            06/29/2022 11:54:34 PAGE 4   
+
+ 180   2          printf("/----------------------------/\n"); 
+ 181   2          printf("Time = %u : %u : %u\n",(unsigned int)temp[2],(unsigned int)temp[1],(unsigned int)temp[0]);
+ 182   2          printf("Date = %u / %u / %u \n",(unsigned int)temp[4],(unsigned int)temp[5],(unsigned int)temp[6]); 
+ 183   2          delay_mc(50000);
+ 184   2          delay_mc(50000);      
+ 185   2          
+ 186   2          }
+ 187   1        }
+*** WARNING C280 IN LINE 153 OF ds1307.c: 'i': unreferenced local variable
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    482    ----
+   CONSTANT SIZE    =     82    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       8
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----       3
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
